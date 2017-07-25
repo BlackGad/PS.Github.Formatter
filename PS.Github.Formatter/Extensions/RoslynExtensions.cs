@@ -10,11 +10,11 @@ namespace PS.Github.Formatter.Extensions
     {
         #region Static members
 
-        public static string FormatSyntax(this string source)
+        public static string FormatSyntax(this string source, string propertyImage, string methodImage, string enumImage)
         {
             if (string.IsNullOrWhiteSpace(source)) return string.Empty;
             var tree = CSharpSyntaxTree.ParseText(source);
-            var visitor = new SyntaxVisitor();
+            var visitor = new SyntaxVisitor(propertyImage, methodImage, enumImage);
             visitor.Visit(tree.GetRoot());
             return visitor.Builder.ToString();
         }

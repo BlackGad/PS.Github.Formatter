@@ -15,16 +15,66 @@
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <TextBlock
+                Grid.Row="0"
+                Grid.Column="0"
+                Margin="2"
+                Text="Enumeration image:" />
+            <TextBox
+                Grid.Row="0"
+                Grid.Column="1"
+                Margin="2"
+                Text="{Binding EnumImage, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+            <TextBlock
+                Grid.Row="0"
+                Grid.Column="0"
+                Margin="2"
+                Text="Property image:" />
+            <TextBox
+                Grid.Row="0"
+                Grid.Column="1"
+                Margin="2"
+                Text="{Binding PropertyImage, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+            <TextBlock
+                Grid.Row="1"
+                Grid.Column="0"
+                Margin="2"
+                Text="Method image:" />
+            <TextBox
+                Grid.Row="1"
+                Grid.Column="1"
+                Margin="2"
+                Text="{Binding MethodImage, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+        </Grid>
+
         <TextBox
+            Grid.Row="1"
             Grid.Column="0"
             Margin="2"
             AcceptsReturn="True"
             Text="{Binding Source, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
         <TextBox
+            Grid.Row="0"
+            Grid.RowSpan="2"
             Grid.Column="1"
             Margin="2"
             AcceptsReturn="True"
+            HorizontalScrollBarVisibility="Auto"
             IsReadOnly="True"
-            Text="{Binding Result, Mode=OneWay}" />
+            Text="{Binding Result, Mode=OneWay}"
+            VerticalScrollBarVisibility="Auto" />
     </Grid>
 </Window>
