@@ -23,6 +23,7 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />
@@ -39,22 +40,22 @@
                 Margin="2"
                 Text="{Binding EnumImage, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
             <TextBlock
-                Grid.Row="0"
+                Grid.Row="1"
                 Grid.Column="0"
                 Margin="2"
                 Text="Property image:" />
             <TextBox
-                Grid.Row="0"
+                Grid.Row="1"
                 Grid.Column="1"
                 Margin="2"
                 Text="{Binding PropertyImage, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
             <TextBlock
-                Grid.Row="1"
+                Grid.Row="2"
                 Grid.Column="0"
                 Margin="2"
                 Text="Method image:" />
             <TextBox
-                Grid.Row="1"
+                Grid.Row="2"
                 Grid.Column="1"
                 Margin="2"
                 Text="{Binding MethodImage, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
