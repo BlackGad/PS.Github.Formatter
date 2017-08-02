@@ -16,6 +16,7 @@ namespace PS.Github.Formatter
         private readonly List<EnumMemberDeclarationSyntax> _enumMembers;
         private readonly string _methodImage;
         private readonly List<MethodDeclarationSyntax> _methods;
+        private readonly List<ConstructorDeclarationSyntax> _constructors;
 
         private readonly List<PropertyDeclarationSyntax> _properties;
         private readonly string _propertyImage;
@@ -35,6 +36,7 @@ namespace PS.Github.Formatter
             Builder = new StringBuilder();
             _properties = new List<PropertyDeclarationSyntax>();
             _methods = new List<MethodDeclarationSyntax>();
+            _constructors = new List<ConstructorDeclarationSyntax>();
             _enumMembers = new List<EnumMemberDeclarationSyntax>();
         }
 
@@ -63,6 +65,12 @@ namespace PS.Github.Formatter
         {
             _methods.Add(node);
             return base.VisitMethodDeclaration(node);
+        }
+
+        public override SyntaxNode VisitConstructorDeclaration(ConstructorDeclarationSyntax node)
+        {
+            _constructors.Add(node);
+            return base.VisitConstructorDeclaration(node);
         }
 
         public override SyntaxNode VisitClassDeclaration(ClassDeclarationSyntax node)
@@ -135,7 +143,7 @@ namespace PS.Github.Formatter
 
             var result = baseMethod(node);
 
-            if (_properties.Any() || _methods.Any())
+            if (_properties.Any() || _methods.Any() || _constructors.Any())
             {
                 Builder.AppendLine("<table>");
                 Builder.AppendLine("  <tr>");
@@ -143,6 +151,32 @@ namespace PS.Github.Formatter
                 Builder.AppendLine("    <th>Name</th>");
                 Builder.AppendLine("    <th>Description</th>");
                 Builder.AppendLine("  </tr>");
+
+                foreach (var constructor in _constructors)
+                {
+                    var methodDocumentation = constructor.GetDocumentation();
+                    var methodSummary = methodDocumentation.GetSummary();
+
+                    Builder.AppendLine("  <tr>");
+                    Builder.AppendLine($"    <td><img src=\"{_methodImage}\"/></td>");
+                    Builder.AppendLine($"    <td>Constructor</td>");
+                    Builder.AppendLine($"    <td>{methodSummary ?? string.Empty}");
+                    Builder.AppendLine("      <dl>");
+
+                    foreach (var parameter in constructor.ParameterList.Parameters)
+                    {
+                        var parameterName = parameter.Identifier.Text;
+                        var parameterDocumentation = methodDocumentation.GetParameter(parameterName);
+                        var parameterType = parameter.Type.ToString().Replace("<", "&lt;").Replace(">", "&gt;");
+                        Builder.AppendLine($"        <dt>{parameterName} : {parameterType}</dt>");
+                        Builder.AppendLine($"        <dd>{parameterDocumentation}</dd>");
+                    }
+
+                    Builder.AppendLine("      </dl>");
+
+                    Builder.AppendLine("    </td>");
+                    Builder.AppendLine("  </tr>");
+                }
 
                 foreach (var property in _properties)
                 {
